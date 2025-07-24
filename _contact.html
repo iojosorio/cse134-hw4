@@ -18,10 +18,14 @@
             background-color: black;
             border: 1px solid red;
         }
-        label {
-            display: inline-block;
-            width: 10rem;
-            margin-bottom: 1rem;
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        form-field {
+            display: flex;
+            width: 50%;
+            flex-direction: column;
         }
         input, select {
             border: 2px solid black;
@@ -38,8 +42,21 @@
             }
         }
         textarea {
-            height: 10rem;
+            height: 10rem !important;
+            width: 100% !important; 
+        }
+        my-output {
+            display: flex;
+            flex-direction: column;
             width: 100%;
+            .info {
+                background-color: black;
+                color: aqua;
+            }
+            .error {
+                background-color: black;
+                color: red;
+            }
         }
     </style>
 </head>
@@ -95,52 +112,67 @@
         <section>
             <h2>Contact Form</h2>
             <p>Please fill out the form below to get in touch with me.</p>
-            <form>
+            <form action="https://httpbin.org/post" method="post">
                 <fieldset>
                     <legend>Personal Information</legend>
-                    <label for="name"> Name: </label>
-                    <input type="text" name="name" id="name">
-                    <br>
-                    <label for="phone"> Phone number: </label>
-                    <input type="tel" name="phone" id="phone" autocomplete="on">
-                    <br>
-                    <label for="email"> Email: </label>
-                    <input type="email" name="email" id="email" autocomplete="on">
-                    <br>
+                    <form-field>
+                        <label for="name"> *Name: </label> 
+                        <input type="text" name="name" id="name" required> 
+                    </form-field>
+                    <form-field>
+                        <label for="phone"> Phone number: </label> 
+                        <input type="tel" name="phone" id="phone" autocomplete="on"> 
+                    </form-field>
+                    <form-field>
+                       <label for="email"> *Email: </label> 
+                        <input type="email" name="email" id="email" autocomplete="on" required>              
+                    </form-field>
+                    <my-output>
+                        <output class="info">Fill in required fields(*).</output>
+                        <output class="error">There exist unfilled required fields(*).</output>
+                    </my-output>
                 </fieldset>
                 <fieldset>
                     <legend>Availability</legend>
-                    <label for="day">Choose a day:</label>
-                    <select name="day" id="day">
-                        <optgroup label="Weekdays">
-                            <option value="mon">Monday</option>
-                            <option value="tue">Tuesday</option>
-                            <option value="wed">Wednesday</option>
-                            <option value="thu">Thursday</option>
-                            <option value="fri">Friday</option>
-                        </optgroup>
-                        <optgroup label="Weekends">
-                            <option value="sat">Saturday</option>
-                            <option value="sun">Sunday</option>
-                        </optgroup>
-                    </select>
-                    <br>
-                    <label for="time">Enter a time.</label>
-                    <input list="time-categories" name="time" id="time">
-                    <datalist id="time-categories">
-                        <option value="Morning"></option>
-                        <option value="Noon"></option>
-                        <option value="Afternoon"></option>
-                        <option value="Evening"></option>
-                    </datalist>
+                    <form-field>
+                        <label for="day">Choose a day:</label>
+                        <select name="day" id="day">
+                            <optgroup label="Weekdays">
+                                <option value="mon">Monday</option>
+                                <option value="tue">Tuesday</option>
+                                <option value="wed">Wednesday</option>
+                                <option value="thu">Thursday</option>
+                                <option value="fri">Friday</option>
+                            </optgroup>
+                            <optgroup label="Weekends">
+                                <option value="sat">Saturday</option>
+                                <option value="sun">Sunday</option>
+                            </optgroup>
+                        </select>
+                    </form-field>
+                    <form-field>
+                        <label for="time">Enter a time.</label>
+                        <input list="time-categories" name="time" id="time">
+                        <datalist id="time-categories">
+                            <option value="Morning"></option>
+                            <option value="Noon"></option>
+                            <option value="Afternoon"></option>
+                            <option value="Evening"></option>
+                        </datalist>
+                    </form-field>
                 </fieldset>
+
                 <fieldset>
-                    <legend>Comments</legend>
+                    <legend>*Comments</legend>
                     <label for="comments">Comments:</label>
-                    <br>
-                    <textarea name="comments" id="comments"></textarea>
+                    <textarea name="comments" id="comments" required></textarea>
+                    <my-output>
+                        <output class="info">Fill in required fields(*).</output>
+                        <output class="error">There exist unfilled required fields(*).</output>
+                    </my-output>
+
                 </fieldset>
-                <br>
+                <input type="hidden" name="possible_bot" value="true">
                 <button type="submit">Submit</button>
             </form>
         </section>
