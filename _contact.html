@@ -9,14 +9,14 @@
         table {
             border-collapse: collapse;
             width: 100%;
-        }
-        td {
-            border: 1px solid black;
-            text-align: center;
-        }
-        th {
-            background-color: black;
-            border: 1px solid red;
+            td {
+                border: 1px solid black;
+                text-align: center;
+            }
+            th {
+                background-color: black;
+                border: 1px solid red;
+            }
         }
         form {
             display: flex;
@@ -27,7 +27,7 @@
             width: 50%;
             flex-direction: column;
         }
-        input, select {
+        input, select, textarea {
             border: 2px solid black;
             background-color: white;
             color: black;
@@ -37,26 +37,13 @@
                 background-color: black;
                 color: white;
                 outline: 2px solid blue;
-                transform: scale(1.03);
+                transform: scale(1.01);
                 transition: all 0.3s ease-in;
             }
         }
         textarea {
             height: 10rem !important;
             width: 100% !important; 
-        }
-        my-output {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            .info {
-                background-color: black;
-                color: aqua;
-            }
-            .error {
-                background-color: black;
-                color: red;
-            }
         }
     </style>
 </head>
@@ -82,7 +69,6 @@
                 619.885.6584
             </address>
         </section>
-
         <section>
             <h2>Availability</h2>
             <p>The table below shows my availability throughout the week.</p>
@@ -108,7 +94,6 @@
                 </tr>
             </table>
         </section>
-
         <section>
             <h2>Contact Form</h2>
             <p>Please fill out the form below to get in touch with me.</p>
@@ -127,10 +112,6 @@
                        <label for="email"> *Email: </label> 
                         <input type="email" name="email" id="email" autocomplete="on" required>              
                     </form-field>
-                    <my-output>
-                        <output class="info">Fill in required fields(*).</output>
-                        <output class="error">There exist unfilled required fields(*).</output>
-                    </my-output>
                 </fieldset>
                 <fieldset>
                     <legend>Availability</legend>
@@ -161,7 +142,6 @@
                         </datalist>
                     </form-field>
                 </fieldset>
-
                 <fieldset>
                     <legend>*Comments</legend>
                     <label for="comments">Comments:</label>
@@ -173,6 +153,10 @@
 
                 </fieldset>
                 <input type="hidden" name="possible_bot" value="true">
+                <my-output>
+                    <output class="info"></output>
+                    <output class="error"></output>
+                </my-output>
                 <button type="submit">Submit</button>
             </form>
         </section>

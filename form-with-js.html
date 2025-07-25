@@ -24,7 +24,7 @@
         }
         form-field {
             display: flex;
-            width: 50%;
+            width: 100%;
             flex-direction: column;
         }
         input, select, textarea {
@@ -45,6 +45,18 @@
             height: 10rem !important;
             width: 100% !important; 
         }
+        output {
+            font-size: 1rem;
+            width : 100%;
+        }
+        .flash {
+            animation: flash 1s ease-in-out 3 alternate;
+        }
+        @keyframes flash {
+            0% { background-color: purple; color: white; }
+            100% { background-color: black; color: aqua; }
+        }
+        
     </style>
 </head>
 
@@ -103,6 +115,10 @@
                     <form-field>
                         <label for="name" class="required"> (*)Name: </label> 
                         <input type="text" name="name" id="name" minlength="2" maxlength="100" pattern="[A-Za-z\s]+" required> 
+                        <my-output>
+                            <output id="info"></output>
+                            <output id="error"></output>
+                        </my-output>
                     </form-field>
                     <form-field>
                         <label for="phone"> Phone number: </label> 
@@ -148,12 +164,41 @@
                     <textarea name="comments" id="comments" maxlength="300"></textarea>
                 </fieldset>
                 <input type="hidden" name="possible_bot" value="true">
-                <my-output>
-                    <output id="info"></output>
-                    <output id="error"></output>
-                </my-output>
                 <button type="submit">Submit</button>
             </form>
+            <script>
+                let emailInput = document.getElementById('email');
+                emailInput.addEventListener('input', function () {
+                    emailInput.setCustomValidity('');
+                    if (!emailInput.checkValidity()) {
+                        emailInput.setCustomValidity('Please enter a valid email address. A valid email address must contain an "@" symbol.');
+                    }
+                });
+                let nameInput = document.getElementById('name');
+                let error = document.getElementById('error');
+                let nameRegex = /^[A-Za-z\s]+$/;
+                nameInput.addEventListener('input', function () {
+                    if (!nameRegex.test(nameInput.value)) {
+                        nameInput.classList.add('error');
+                        error.textContent = 'Invalid characters in name. Please use only letters and spaces.';
+                        
+                        error.classList.remove('flash');
+                        void error.offsetWidth;
+                        error.classList.add('flash');
+
+                        setTimeout(() => {
+                            error.textContent = '';
+                            nameInput.classList.remove('error');
+                            error.classList.remove('flash');
+                        }, 3000);
+                    } else {
+                        error.textContent = '';
+                        nameInput.classList.remove('error');
+                        error.classList.remove('flash');
+                    }
+                });
+
+            </script>
         </section>
     </main>
     <footer>
