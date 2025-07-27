@@ -48,7 +48,7 @@
     --header-background-color: #3cc8aa;
     --footer-background-color: #3cc8aa;
     --header-text-color: white;
-    --footer-text-color: white;
+    --footer-text-color: black;
     --content-background-color: white;
     .film-grid {
         color: black;
@@ -80,6 +80,7 @@ body {
 
 }
 header {
+    
     background-color: var(--header-background-color);
     color: var(--header-text-color);
 	text-align: center;
