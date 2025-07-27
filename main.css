@@ -77,7 +77,9 @@ body {
         "header"
         "main"
         "footer";
-
+    select {
+        font-size: var(--font-size);
+    }
 }
 header {
     
