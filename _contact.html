@@ -5,17 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Information</title>
     <link rel="stylesheet" href="main.css">
+        <noscript>
+        <style>
+            .theme-select {
+                display: none;
+            }
+        </style>
+    </noscript>
     <style> 
         table {
             border-collapse: collapse;
             width: 100%;
             td {
-                border: 1px solid black;
+                border: 2px solid var(--header-background-color);
                 text-align: center;
             }
             th {
-                background-color: black;
-                border: 1px solid red;
+                background-color: var(--header-background-color);
+                border: 2px solid var(--header-background-color);
             }
         }
         form {
@@ -46,6 +53,9 @@
             width: 100% !important; 
         }
     </style>
+    <script>
+        document.querySelectorAll('.theme-select').forEach(el => el.style.display = '');
+    </script>
 </head>
 
 <body>
@@ -57,6 +67,26 @@
             <a href="_contact.html">Contact Me</a>
             <a href="_experience.html">Experience</a>
         </nav>
+        <br>
+        <label for="theme-toggle" class="theme-select">Toggle Theme:</label>
+        <select id="theme-toggle" class="theme-select">
+            <option value="default">Default</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+        </select>
+        <script>
+            let _themeToggle = document.getElementById('theme-toggle');
+            _themeToggle.addEventListener('change', function() {
+                document.documentElement.className = this.value;
+                localStorage.setItem('theme', this.value);
+            });
+
+            let savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.className = savedTheme;
+                document.getElementById('theme-toggle').value = savedTheme;
+            }
+        </script>
     </header>
     <main>
         <section>
@@ -101,7 +131,7 @@
                 <fieldset>
                     <legend>Personal Information</legend>
                     <form-field>
-                        <label for="name"> *Name: </label> 
+                        <label for="name"> (*)Name: </label> 
                         <input type="text" name="name" id="name" required> 
                     </form-field>
                     <form-field>
@@ -109,7 +139,7 @@
                         <input type="tel" name="phone" id="phone" autocomplete="on"> 
                     </form-field>
                     <form-field>
-                       <label for="email"> *Email: </label> 
+                       <label for="email"> (*)Email: </label> 
                         <input type="email" name="email" id="email" autocomplete="on" required>              
                     </form-field>
                 </fieldset>
@@ -143,14 +173,9 @@
                     </form-field>
                 </fieldset>
                 <fieldset>
-                    <legend>*Comments</legend>
+                    <legend>Comments</legend>
                     <label for="comments">Comments:</label>
                     <textarea name="comments" id="comments" required></textarea>
-                    <my-output>
-                        <output class="info">Fill in required fields(*).</output>
-                        <output class="error">There exist unfilled required fields(*).</output>
-                    </my-output>
-
                 </fieldset>
                 <input type="hidden" name="possible_bot" value="true">
                 <my-output>

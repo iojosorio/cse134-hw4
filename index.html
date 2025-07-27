@@ -5,15 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
     <link rel="stylesheet" href="main.css">
+    <noscript>
+        <style>
+            .theme-select {
+                display: none;
+            }
+        </style>
+    </noscript>
     <style>
-        .pic {
-            display: flex;
-            justify-content: center;
+        img {
+            display: none;
         }
     </style>
+    <script>
+        document.querySelectorAll('.theme-select').forEach(el => el.style.display = '');
+    </script>
 </head>
-
-<body>
+<body >
     <header class="hero">
         <h1>Home</h1>
         <nav>
@@ -22,6 +30,26 @@
             <a href="_contact.html">Contact Me</a>
             <a href="_experience.html">Experience</a>
         </nav>
+        <br>
+        <label for="theme-toggle" class="theme-select">Toggle Theme:</label>
+        <select id="theme-toggle" class="theme-select">
+            <option value="default">Default</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+        </select>
+        <script>
+            let _themeToggle = document.getElementById('theme-toggle');
+            _themeToggle.addEventListener('change', function() {
+                document.documentElement.className = this.value;
+                localStorage.setItem('theme', this.value);
+            });
+
+            let savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.className = savedTheme;
+                document.getElementById('theme-toggle').value = savedTheme;
+            }
+        </script>
     </header>
     <main>
         <section>
@@ -41,12 +69,10 @@
                 alt="image of the word justice in red letter on Bruce Nauman's Vices and Virtues at the University of California, San Diego.">
             </picture>
         </section>
-
         <section>
             <h2>Contact Information.</h2>
             <p>Here you may contact me more directly if you have any questions.</p>
         </section>
-
         <section>
             <h2>Experience.</h2>
             <p>Here is a section highlighting previous projects and things I'm working on.</p>

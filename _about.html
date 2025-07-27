@@ -5,38 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Me</title>
     <link rel="stylesheet" href="main.css">
+    <noscript>
+        <style>
+            .theme-select {
+                display: none;
+            }
+        </style>
+    </noscript>
     <style>
         .books {
-            background-color: black;
+            background-color: var(--content-background-color);
             display: flex;
             flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto;
             padding: 1rem;
-            width: 100%;
-            img {
-                max-width: 100%;
-                height: auto;
-            }
         }
         .film-grid {
-            background-color: black;
+            background-color: var(--content-background-color);
             display: flex;
             flex-direction: row;
             padding: 2rem;
-        }
-        film-cover {
-            display: flex;
-            padding: 2rem;
-        }
-
-        film-cover picture img {
-            max-width: 100%;
-        }
-
-        film-list {
-            padding: 2rem
         }
         @media (max-width: 825px) {
             .film-grid {
@@ -49,6 +36,9 @@
             }
         }
     </style>
+    <script>
+        document.querySelectorAll('.theme-select').forEach(el => el.style.display = '');
+    </script>
 </head>
 
 <body>
@@ -60,6 +50,26 @@
             <a href="_contact.html">Contact Me</a>
             <a href="_experience.html">Experience</a>
         </nav>
+        <br>
+        <label for="theme-toggle" class="theme-select">Toggle Theme:</label>
+        <select id="theme-toggle" class="theme-select">
+            <option value="default">Default</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+        </select>
+        <script>
+            let _themeToggle = document.getElementById('theme-toggle');
+            _themeToggle.addEventListener('change', function() {
+                document.documentElement.className = this.value;
+                localStorage.setItem('theme', this.value);
+            });
+
+            let savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                document.documentElement.className = savedTheme;
+                document.getElementById('theme-toggle').value = savedTheme;
+            }
+        </script>
     </header>
     <main>
         <section>
