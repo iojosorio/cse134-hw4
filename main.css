@@ -25,14 +25,14 @@
 .light {
     --background-color: white;
     --main-text-color: black;
-    --main-text-color-link: blue;
-    --main-text-color-hover: #3333FF;
+    --main-text-color-link: aqua;
+    --main-text-color-hover: yellow;
     --heading-background-color: black;
     --heading-text-color: white;
-    --header-background-color: lightblue;
-    --footer-background-color: lightblue;
-    --header-text-color: black;
-    --footer-text-color: black;
+    --header-background-color: blue;
+    --footer-background-color: blue;
+    --header-text-color: white;
+    --footer-text-color: white;
     --content-background-color: black;
     .film-grid {
         color: white;
@@ -41,12 +41,12 @@
 .dark {
     --background-color: black;
     --main-text-color: white;
-    --main-text-color-link: lightblue;
-    --main-text-color-hover: #86C5DA;
+    --main-text-color-link: #3333FF;
+    --main-text-color-hover: #ffffff;
     --heading-background-color: white;
     --heading-text-color: black;
-    --header-background-color: blue;
-    --footer-background-color: blue;
+    --header-background-color: #3cc8aa;
+    --footer-background-color: #3cc8aa;
     --header-text-color: white;
     --footer-text-color: white;
     --content-background-color: white;

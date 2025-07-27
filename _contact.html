@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Information</title>
     <link rel="stylesheet" href="main.css">
-        <noscript>
+    <noscript>
         <style>
             .theme-select {
                 display: none;
@@ -23,6 +23,7 @@
             th {
                 background-color: var(--header-background-color);
                 border: 2px solid var(--header-background-color);
+                color: var(--main-text-color-hover);
             }
         }
         form {
@@ -51,6 +52,17 @@
         textarea {
             height: 10rem !important;
             width: 100% !important; 
+        }
+        output {
+            font-size: 1rem;
+            width : 100%;
+        }
+        .flash {
+            animation: flash 1s ease-in-out 3 alternate;
+        }
+        @keyframes flash {
+            0% { background-color: var(--background-color); color: var(--main-text-color); }
+            100% { background-color: var(--header-background-color); color: var(--main-text-color-hover); }
         }
     </style>
     <script>
@@ -131,16 +143,20 @@
                 <fieldset>
                     <legend>Personal Information</legend>
                     <form-field>
-                        <label for="name"> (*)Name: </label> 
-                        <input type="text" name="name" id="name" required> 
+                        <label for="name" class="required"> (*)Name: </label> 
+                        <input type="text" name="name" id="name" pattern="[A-Za-z\s]+" required> 
+                        <my-output>
+                            <output id="info"></output>
+                            <output id="error"></output>
+                        </my-output>
                     </form-field>
                     <form-field>
                         <label for="phone"> Phone number: </label> 
                         <input type="tel" name="phone" id="phone" autocomplete="on"> 
                     </form-field>
                     <form-field>
-                       <label for="email"> (*)Email: </label> 
-                        <input type="email" name="email" id="email" autocomplete="on" required>              
+                       <label for="email" class="required"> (*)Email: </label> 
+                        <input type="email" name="email" id="email" required>              
                     </form-field>
                 </fieldset>
                 <fieldset>
@@ -175,15 +191,99 @@
                 <fieldset>
                     <legend>Comments</legend>
                     <label for="comments">Comments:</label>
-                    <textarea name="comments" id="comments" required></textarea>
+                    <textarea name="comments" id="comments" maxlength="300"></textarea>
+                    <output id="counter">300 characters remaining</output>
                 </fieldset>
                 <input type="hidden" name="possible_bot" value="true">
-                <my-output>
-                    <output class="info"></output>
-                    <output class="error"></output>
-                </my-output>
+                <input type="hidden" name="form-errors" id="form-errors">
                 <button type="submit">Submit</button>
             </form>
+            <script>
+                let form_errors = [];
+
+                let form = document.querySelector('form');
+                let formErrorsInput = document.getElementById('form-errors');
+
+                let _name = document.getElementById('name');
+                let _error = document.getElementById('error');
+                let nameRegex = /^[A-Za-z\s]+$/;
+                _name.addEventListener('input', function () {
+                    _name.setCustomValidity('');
+                    if (!nameRegex.test(_name.value)) {
+                        _name.setCustomValidity('Invalid characters in name. Please use only letters and spaces.');
+                        _name.classList.add('error');
+                        _error.textContent = 'Invalid characters in name. Please use only letters and spaces.';
+                        
+                        form_errors.push({
+                            field: 'name',
+                            value: _name.value,
+                            message: 'Invalid characters in name. Please use only letters and spaces.',
+                        });
+
+                        _error.classList.remove('flash');
+                        _error.classList.add('flash');
+
+                        setTimeout(() => {
+                            _error.textContent = '';
+                            _name.classList.remove('error');
+                            _error.classList.remove('flash');
+                        }, 3000);
+                    } else {
+                        _error.textContent = '';
+                        _name.classList.remove('error');
+                        _error.classList.remove('flash');
+                    }
+                });
+
+                let _email = document.getElementById('email');
+                _email.addEventListener('input', function () {
+                    _email.setCustomValidity('');
+                    if (!_email.checkValidity()) {
+                        _email.setCustomValidity('Please enter a valid email address. A valid email address must contain an "@" symbol.');
+                        form_errors.push({
+                            field: 'email',
+                            value: _email.value,
+                            message: 'Invalid email address format.',
+                        });
+                    }
+                });
+
+                let textarea = document.getElementById('comments');
+                let counter = document.getElementById('counter');
+                let limit = 300;
+                textarea.addEventListener('input', function () {
+                    let remaining = limit - textarea.value.length;
+                    counter.textContent = `${remaining} characters remaining`;
+                    if(0 <= remaining && remaining < 60) {
+                        textarea.style.border = '2px solid red';
+                    } else if (60 <= remaining && remaining < 120) {
+                        textarea.style.border = '2px solid lightcoral';
+                    } else if (120 <= remaining && remaining < 180) {
+                        textarea.style.border = '2px solid white';
+                    } else if (180 <= remaining && remaining < 240) {
+                        textarea.style.border = '2px solid lightblue';
+                    } else {
+                        textarea.style.border = '2px solid aqua';
+                    }
+                });
+                textarea.addEventListener('focus', function () {
+                    textarea.style.border = '2px solid aqua';
+                    textarea.style.backgroundColor = 'black';
+                    textarea.style.color = 'white';
+                    textarea.style.transform = 'scale(1.01)';
+                    textarea.style.transition = 'all 0.3s ease-in';
+                });
+                textarea.addEventListener('blur', function () {
+                    textarea.style.border = '2px solid black';
+                    textarea.style.backgroundColor = 'white';
+                    textarea.style.color = 'black';
+                    textarea.style.transform = 'scale(1)';
+                    textarea.style.transition = 'all 0.3s ease-in';
+                });
+                form.addEventListener('submit', function (e) {
+                    formErrorsInput.value = JSON.stringify(form_errors);
+                });
+            </script>
         </section>
     </main>
     <footer>
